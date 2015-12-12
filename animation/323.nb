@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     41958,        954]
-NotebookOptionsPosition[     40841,        909]
-NotebookOutlinePosition[     41199,        925]
-CellTagsIndexPosition[     41156,        922]
+NotebookDataLength[     42089,        956]
+NotebookOptionsPosition[     40971,        911]
+NotebookOutlinePosition[     41329,        927]
+CellTagsIndexPosition[     41286,        924]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -26,10 +26,11 @@ Cell["Animation in Mathematica", "Title",
 
 Cell[CellGroupData[{
 
-Cell["Rigid body kinematics. Euler angles. ", "Subsubsection",
+Cell["Rigid body kinematics. Euler angles 3-2-3. ", "Subsubsection",
  CellChangeTimes->{{3.658928932615364*^9, 3.658928949629163*^9}, {
   3.658929003769034*^9, 3.658929084075954*^9}, {3.658929166292324*^9, 
-  3.6589291683438387`*^9}, {3.6589299591167*^9, 3.658929986639369*^9}}],
+  3.6589291683438387`*^9}, {3.6589299591167*^9, 3.658929986639369*^9}, {
+  3.6589318730841417`*^9, 3.6589318755157537`*^9}}],
 
 Cell["\<\
 Vadim V.Yudintsev
@@ -717,11 +718,12 @@ Cell[BoxData[
 Cell[BoxData[
  TagBox[
   StyleBox[
-   DynamicModuleBox[{$CellContext`\[Theta]$$ = 0, $CellContext`\[CurlyPhi]$$ =
-     0, $CellContext`\[Psi]$$ = 0, Typeset`show$$ = True, 
-    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
-    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
-    "\"untitled\"", Typeset`specs$$ = {{
+   DynamicModuleBox[{$CellContext`\[Theta]$$ = 
+    0.3141592653589793, $CellContext`\[CurlyPhi]$$ = 
+    0.6283185307179586, $CellContext`\[Psi]$$ = 0.3141592653589793, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
       Hold[$CellContext`\[Psi]$$], 0, Pi, 0.3141592653589793}, {
       Hold[$CellContext`\[Theta]$$], 0, Pi, 0.3141592653589793}, {
       Hold[$CellContext`\[CurlyPhi]$$], 0, Pi, 0.3141592653589793}}, 
@@ -892,9 +894,9 @@ Cell[BoxData[
  RowBox[{"Export", "[", 
   RowBox[{"\"\<323.avi\>\"", ",", "AniT313"}], "]"}]], "Input"],
 
-Cell[BoxData["\<\"323.avi\"\>"], "Output",
+Cell[BoxData["$Aborted"], "Output",
  CellChangeTimes->{3.658841024755477*^9, 3.6588430716168222`*^9, 
-  3.658843130904058*^9, 3.6588435228601418`*^9}]
+  3.658843130904058*^9, 3.6588435228601418`*^9, 3.658931796018626*^9}]
 }, Open  ]],
 
 Cell["\<\
@@ -927,33 +929,33 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[579, 22, 132, 2, 92, "Title"],
 Cell[CellGroupData[{
-Cell[736, 28, 272, 3, 35, "Subsubsection"],
-Cell[1011, 33, 263, 6, 49, "Text"]
+Cell[736, 28, 331, 4, 35, "Subsubsection"],
+Cell[1070, 34, 263, 6, 49, "Text"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1311, 44, 162, 2, 64, "Section"],
-Cell[1476, 48, 189, 4, 86, "Input"],
-Cell[1668, 54, 1453, 40, 90, "Input"]
+Cell[1370, 45, 162, 2, 64, "Section"],
+Cell[1535, 49, 189, 4, 28, "Input"],
+Cell[1727, 55, 1453, 40, 90, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3158, 99, 95, 1, 64, "Section"],
-Cell[3256, 102, 21927, 534, 930, "Input"]
+Cell[3217, 100, 95, 1, 64, "Section"],
+Cell[3315, 103, 21927, 534, 930, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[25220, 641, 213, 3, 64, "Section"],
+Cell[25279, 642, 213, 3, 64, "Section"],
 Cell[CellGroupData[{
-Cell[25458, 648, 4388, 66, 28, "Input"],
-Cell[29849, 716, 6263, 98, 882, "Output"]
+Cell[25517, 649, 4388, 66, 28, "Input"],
+Cell[29908, 717, 6319, 99, 882, "Output"]
 }, Open  ]],
-Cell[36127, 817, 3954, 63, 46, "Input"]
+Cell[36242, 819, 3954, 63, 46, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[40118, 885, 97, 1, 64, "Section"],
+Cell[40233, 887, 97, 1, 64, "Section"],
 Cell[CellGroupData[{
-Cell[40240, 890, 102, 2, 28, "Input"],
-Cell[40345, 894, 157, 2, 28, "Output"]
+Cell[40355, 892, 102, 2, 28, "Input"],
+Cell[40460, 896, 172, 2, 28, "Output"]
 }, Open  ]],
-Cell[40517, 899, 296, 6, 30, "Text"]
+Cell[40647, 901, 296, 6, 30, "Text"]
 }, Open  ]]
 }, Open  ]]
 }
