@@ -1,0 +1,432 @@
+% -*- program: xelatex -*-
+%\documentclass[12pt, compress]{beamer} 
+\documentclass[12pt, compress]{beamer}       
+%\documentclass[notes=only]{beamer}
+
+\usepackage{fontspec}
+	
+\setsansfont{PT Sans}
+ \setmonofont{Liberation Mono}
+
+\usepackage{beamerthemesplit}
+\usefonttheme[onlymath]{serif}
+%\DeclareFontEncoding{T1}
+\fontencoding{T1}
+
+%\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{listings}
+
+\usepackage{amsmath,amssymb,amsthm}
+\hypersetup{unicode=true}
+\usepackage{graphics,graphicx}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{booktabs}
+%\usepackage{media9}
+\usepackage[super]{natbib}
+\usepackage{color}
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+\definecolor{codecolor}{RGB}{0,120,0}
+\definecolor{light-gray}{gray}{0.95}
+\definecolor{light-green}{rgb}{0.93, 1, 0.8}
+\definecolor{light-yellow}{rgb}{1,1,0.85}
+\definecolor{dark-blue}{rgb}{0,0,0.6}
+\definecolor{dark-red}{rgb}{0.7,0,0.0}
+\definecolor{dark-green}{RGB}{10,150,0}
+
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\textcolor{green}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}
+
+\setbeamercolor{frametitle}{fg=dark-red,bg=gray!10}
+\setbeamerfont{title}{series=\bfseries,parent=structure}
+\setbeamerfont{frametitle}{series=\bfseries,parent=structure}
+
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{navigation symbols}{}
+
+\newcommand{\code}[1]{\textcolor{dark-green}{\texttt{#1}}}
+\newcommand{\cleartitlepage}[1]{\begin{frame}[plain]\begin{center}\textsc{#1}\end{center}\end{frame}}
+\renewcommand{\emph}[1]{\textcolor{dark-blue}{#1}}
+\newcommand{\emphb}[1]{\textcolor{dark-blue}{\textbf{#1}}}
+\newcommand{\lstcomment}[1]{\textcolor{dark-green}{\# \texttt{#1}}}
+
+\usepackage{dirtree}
+
+\usetheme{CambridgeUS}
+\usecolortheme{lily}
+
+\lstset{basicstyle=\ttfamily,
+    language=matlab,    
+    keepspaces=true,
+    extendedchars=\true,
+    basicstyle={\small},
+    breaklines=true,
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{blue}},
+    identifierstyle={ \bf \color{black} },
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,
+    numbers=left,%
+    numberstyle={\scriptsize \color{gray}},
+    numbersep=7pt, 
+    emph=[1]{case,switch,otherwise,nonlocal,as,yield, with},emphstyle=[1]\color{blue}, 
+    frame=single,    
+    rulecolor=\color{red},    
+    backgroundcolor=\color{light-gray},
+    xleftmargin=0.3cm,
+    frame=l,framesep=4pt,framerule=0.5pt,
+    escapechar=|
+    %lineskip=-1.0pt,
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning} 
+\tikzset{cbutton/.style={rectangle,minimum width=10mm,thick,draw=red!50!black!50,
+top color=white,bottom color=red!50!black!30}}
+\tikzset{mbutton/.style={rectangle,minimum width=10mm,thick,draw=black!20,
+top color=white,bottom color=black!30}}
+
+\usetikzlibrary{arrows,shapes}
+\tikzstyle{every picture}+=[remember picture]
+
+
+\makeatother
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%  
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%  
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+ 
+\AtBeginSection[]{
+  \begin{frame}[plain]
+  %\vfill  
+  \begin{tikzpicture}
+  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);  
+  \fill[color=dark-red]   (-1cm, 3.9cm) rectangle(\the\paperwidth, 5.9cm);
+  %\usebeamerfont{title}\insertsectionhead\par%
+  %\node[text width=\the\paperwidth,align=center] at (current page.center) {\color{ExecusharesWhite}\Large\textbf{\insertsectionhead}};  
+  \node[text width=\the\paperwidth,align=center] at (6cm,4.9cm) {\color{white}\Large\textbf{\insertsectionhead}};  
+  \end{tikzpicture}
+  \end{frame}
+}
+
+
+
+% ============================================================================
+
+\title[numpy]{Модель орбитальной ступени}
+\subtitle{Динамика твёрдого тела и систем тел}
+\author[Самарский университет]{Юдинцев В. В.}
+\institute{Кафедра теоретической механики\\Самарский университет}
+\date{\today}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning} 
+\tikzset{cbutton/.style={rectangle,minimum width=10mm,thick,draw=red!50!black!50,
+top color=white,bottom color=red!50!black!30}}
+\tikzset{mbutton/.style={rectangle,minimum width=10mm,thick,draw=black!20,
+top color=white,bottom color=black!30}}
+
+
+\tikzstyle{block} = [rectangle, draw, fill=yellow!20, text width=5em, text centered, rounded corners, minimum height=5em]
+\tikzstyle{subblock} = [rectangle, draw, fill=white, text width=2em, text centered, minimum height=1em]
+\tikzstyle{module} = [rectangle, draw, fill=none, text width=5em, text centered, rounded corners, minimum height=5em]
+\tikzstyle{line} = [draw, ->]
+
+\begin{document}
+
+{
+\setbeamercolor{background canvas}{bg=light-yellow} 
+\usebackgroundtemplate[background]{}
+\begin{frame}[plain]
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=0.3\textwidth]{../common/Python_logo_and_wordmark.pdf}
+%\end{figure}
+\maketitle
+\end{frame}
+}
+
+% \frame{\frametitle{Содержание}\tableofcontents}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{Ax.m}}
+Файл-функция матрицы поворота вокруг оси \emph{x}:
+\lstinputlisting[language=matlab]{Ax.m}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{Ay.m}}
+Файл-функция матрицы поворота вокруг оси \emph{y}:
+\lstinputlisting[language=matlab]{Ay.m}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{Az.m}}
+Файл-функция матрицы поворота вокруг оси \emph{z}:
+\lstinputlisting[language=matlab]{Az.m}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{get\_frustum.m}}
+Файл-функция координат точек поверхности усечённого конуса:
+\lstinputlisting[language=matlab]{get_frustum.m}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{affine\_transform.m}}
+Поворот и перемещение точек:
+\lstinputlisting[language=matlab]{affine_transform.m}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{draw\_upper\_stage.m}}
+\begin{lstlisting}
+function draw_upper_stage(bc, rc, A)
+
+% Nozzle 
+L1 = 1; R11 = 1; R12 = 0.3;
+[x,y,z,c] = get_frustum(R11,R12,L1,[1,0,0]);
+[x,y,z  ] = affine_transform(x-bc(1), ...
+                             y-bc(2), ...
+                             z-bc(3), rc, A);
+surf(x,y,z,c);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{draw\_upper\_stage.m}}
+Двигательный отсек
+\begin{lstlisting}
+L2 = 1; R21 = 1.5; R22 = 2;
+
+[x,y,z,c] = get_frustum(R21,R22,L2,[0.5,0.5,0.5]);
+
+x = x + L1;
+
+[x,y,z  ] = affine_transform(x-bc(1),...
+                             y-bc(2),...
+                             z-bc(3), rc, A);
+surf(x,y,z,c);
+
+fill3(x(1,:),y(1,:),z(1,:),c(1,:,:));
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{draw\_upper\_stage.m}}
+Корпус
+\begin{lstlisting}
+L3 = 6; R3 = 2;
+
+[x,y,z,c] = get_frustum(R3,R3,L3,[0.0,0.5,0.0]);
+
+x = x + L1 + L2;
+
+[x,y,z  ] = affine_transform(x-bc(1), ...
+                             y-bc(2), ...
+                             z-bc(3), rc, A);
+
+surf(x,y,z,c);
+
+fill3(x(2,:),y(2,:),z(2,:),c(2,:,:));
+
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{draw\_upper\_stage.m}}
+Переходный отсек
+\begin{lstlisting}
+L4 = 1; R41 = 2; R42 = 2.5;
+
+[x,y,z,c] = get_frustum(R41,R42,L4,[0.5,1.0,0.5]);
+
+x = x + L1 + L2 + L3;
+
+[x,y,z  ] = affine_transform(x-bc(1), ...
+                             y-bc(2), ...
+                             z-bc(3), rc, A);
+
+surf(x,y,z,c);
+
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-функция \emph{draw\_upper\_stage.m}}
+Оси координат
+\begin{lstlisting}
+xc = A*[0, 7;
+        0, 0;
+        0, 0] + repmat(rc,1,2);
+yc = A*[0, 0;
+        0, 5;
+        0, 0] + repmat(rc,1,2);
+zc = A*[0, 0;
+        0, 0;
+        0, 5] + repmat(rc,1,2);  
+
+line(xc(1,:),xc(2,:),xc(3,:),'Color',[1,0,0]);
+line(yc(1,:),yc(2,:),yc(3,:),'Color',[0,1,0]);
+line(zc(1,:),zc(2,:),zc(3,:),'Color',[0,0,1]);
+
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-скрипт \emph{view\_rocket.m}}
+Оси координат
+\begin{lstlisting}
+figure;
+axis([-10 10 -10 10 -10 10]);
+hold on;
+box;
+axis vis3d;
+for i=1:360
+    cla;
+    draw_upper_stage([4;0;0], ...
+                     [0;0;0], Ay(i*pi/180.0));
+    shading flat;
+    lighting gouraud;
+    light('Position',[0 0 10]);
+    getframe;
+end
+\end{lstlisting}
+\end{frame}
+
+\section{Кватернионы}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-скрипт \emph{quat.m}}
+Определение координат кватерниона по заданному направлению и углу поворота
+\begin{lstlisting}
+function res = quat(e, phi)
+
+res = [cos(phi*0.5), reshape(e,1,3)*sin(phi*0.5)];
+
+\end{lstlisting}
+$$
+  \boldsymbol \Lambda = \cos \frac{\varphi}{2} + \boldsymbol{e} \sin \frac{\varphi}{2},
+$$
+Результат (\emph{res}) содержит 4 компоненты кватерниона.
+\end{frame}
+
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-скрипт \emph{quat\_conj.m}}
+Вычисление сопряженного кватерниона
+\begin{lstlisting}
+function res = quat_conj(q)
+
+res = ...
+
+\end{lstlisting}
+\begin{equation*}
+\boldsymbol \Lambda = \lambda_0 + \boldsymbol \lambda, \ \overline{\boldsymbol \Lambda} = \lambda_0 - \pmb \lambda
+\end{equation*}
+\end{frame}
+
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-скрипт \emph{quat\_mul.m}}
+Умножение кватернионов
+\begin{lstlisting}
+function AB = quat_mul(A, B)
+
+AB = [A(1)*B(1)-dot(...), A(1)*B(2:end)+...];
+
+\end{lstlisting}
+\begin{multline*} 
+  \boldsymbol{\Lambda} \circ \boldsymbol{B} = (\lambda_0+{\pmb{\lambda}}) \circ (b_0+ {\boldsymbol{b}}) \\ 
+= (\lambda_0 + \lambda_1 \boldsymbol i_1 + \lambda_2 \boldsymbol i_2 + \lambda_3 \boldsymbol i_3) \circ (b_0 + b_1 \boldsymbol i_1 + b_2 \boldsymbol i_2 + b_3 \boldsymbol i_3) = \\
+\lambda_0 b_0 + \lambda_1 b_1 \boldsymbol i_1 \circ \boldsymbol i_1 + \lambda_2 b_2 \boldsymbol i_2 \circ \boldsymbol i_2 + \lambda_3 b_3 \boldsymbol i_3 \circ \boldsymbol i_3 + \\
++ \lambda_0 \boldsymbol b + b_0 \boldsymbol \lambda + \underbrace{\lambda_1 b_2 \boldsymbol i_3 - \lambda_1 b_3 \boldsymbol i_2 - \lambda_2 b_1 \boldsymbol i_3 + \lambda_2 b_3 \boldsymbol i_1 + \lambda_3 b_1 \boldsymbol i_2 - \lambda_3 b_2 \boldsymbol i_1}_{\pmb \lambda \times \boldsymbol b} = \\
+= \underbrace{\lambda_0 b_0 - \pmb \lambda \cdot \boldsymbol b}_{\text{скалярная часть}} + \underbrace{\lambda_0 \boldsymbol b + \pmb \lambda b_0 + \pmb \lambda \times \boldsymbol b}_{\text{векторная часть}}.
+\end{multline*}
+Использовать функции \emph{cross} (векторное произведение) и \emph{dot} (скалярное произведение)
+\end{frame}
+
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-скрипт \emph{quat\_transform.m}}
+Поворот вектора $\boldsymbol r$ при помощи кватерниона
+\begin{lstlisting}
+function rp = quat_transform(q, r)
+
+rp = quat_mul(quat_mul(q,[0, r]),quat_conj(q));
+rp = rp(2:end);
+
+\end{lstlisting}
+\begin{equation*}\label{eq:quatAd}
+  \boxed{\boldsymbol R' = \boldsymbol \Lambda \circ \boldsymbol R \circ \overline{\boldsymbol \Lambda}} \quad |\boldsymbol \Lambda| = 1.
+\end{equation*}
+\end{frame}
+
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-скрипт \emph{quat\_to\_mat.m}}
+Матрица поворота, соответсвующая кватерниону  
+\begin{lstlisting}
+function a = quat_to_mat(q)
+
+a = [ 2*(q(1)*q(1)+q(2)*q(2))-1, ..., ...;
+      ..., ..., ...;
+      ..., ..., ... ];
+
+\end{lstlisting}
+\begin{equation*}
+  \boldsymbol A = 
+\begin{bmatrix}
+2(\lambda_0^2+\lambda_1^2)-1 & 2(\lambda_1 \lambda_2 - \lambda_0 \lambda_3)  & 2(\lambda_1 \lambda_3 + \lambda_0 \lambda_2) \\
+2(\lambda_1 \lambda_2 + \lambda_0 \lambda_3) & 2(\lambda_0^2 + \lambda_2^2) - 1 & 2(\lambda_2 \lambda_3 - \lambda_0 \lambda_1) \\
+2 (\lambda_1\lambda_3-\lambda_0\lambda_2) & 2(\lambda_2\lambda_3+\lambda_0\lambda_1) &   2(\lambda_0^2 + \lambda_3^2) - 1
+\end{bmatrix}
+\end{equation*} 
+\end{frame}
+
+\begin{frame}[c, fragile]
+\frametitle{Файл-скрипт \emph{view\_rocket.m}}
+Оси координат
+\begin{lstlisting}
+figure;
+axis([-10 10 -10 10 -10 10]);
+hold on;
+box;
+axis vis3d;
+for i=1:360
+ cla;
+ q = quat([1 0 0], i*pi/180.0);
+ draw_upper_stage([4;0;0],[0;0;0],quat_to_mat(q));
+ shading flat;
+ lighting gouraud;
+ light('Position',[0 0 10]);
+ getframe;
+end
+\end{lstlisting}
+\end{frame}
+
+
+
+\end{document}
