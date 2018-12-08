@@ -12,7 +12,8 @@ L2 = 0.5; R21 = 0.8; R22 = 1.5;
 x = x + L1;
 [x,y,z  ] = affine_transform(x-bc(1), y-bc(2), z-bc(3), rc, A);
 surf(x,y,z,c);
-fill3(x(1,:),y(1,:),z(1,:),c(1,:,:));
+
+%fill3(x(1,:),y(1,:),z(1,:),c(1,:,:));
 
 % Body
 L3 = 6; R3 = 1.5;
@@ -20,7 +21,8 @@ L3 = 6; R3 = 1.5;
 x = x + L1 + L2;
 [x,y,z  ] = affine_transform(x-bc(1), y-bc(2), z-bc(3), rc, A);
 surf(x,y,z,c);
-fill3(x(2,:),y(2,:),z(2,:),c(2,:,:));
+%fill3(x(2,:),y(2,:),z(2,:),c(2,:,:));
+
 
 % Adapter
 L4 = 0.5; R41 = 1.5; R42 = 0.7;
