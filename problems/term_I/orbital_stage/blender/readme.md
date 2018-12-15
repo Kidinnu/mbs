@@ -15,4 +15,4 @@ body.blend file contains model of the body and python script to import data from
 1. Press Alt-p or press Right mouse button in the code editor and select "Run Script"
 1. Now you can make Animation using "Render" menu
 
-![My helpful screenshot](../blender.png)
+![My helpful screenshot](./blender.png)
