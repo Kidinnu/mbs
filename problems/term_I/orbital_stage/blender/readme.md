@@ -10,11 +10,11 @@ This file contains comma separated columns that describe attitude motion of the 
 Time, x, y, z, a1, a2, a3, Vx, Vy, Vz, wx, wy, wz
 ~~~
 
-where a1, a2 and a3 are the angles of XY'Z'' sequence, x, y, z is the position of the center of mass of the body.
+where a1, a2 and a3 are the angles of XY'Z'' sequence; x, y, z is the position of the center of mass of the body.
 
 ### body.blend
 
-The file contains model of the body and python script to import data from the file.
+The file contains model of the body and python script that imports data from the file.
 
 
 1. Install Blender
