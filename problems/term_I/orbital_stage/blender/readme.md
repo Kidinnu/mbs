@@ -2,10 +2,20 @@
 
 Example of using Blender to animate motion of the body according to the data in result file.
 
+### result.csv
 
-data.csv file contains three comma separated columns that describe attitude motion of the body.
+This file contains comma separated columns that describe attitude motion of the body.
 
-body.blend file contains model of the body and python script to import data from the file.
+~~~
+Time, x, y, z, a1, a2, a3, Vx, Vy, Vz, wx, wy, wz
+~~~
+
+where a1, a2 and a3 are the angles of XY'Z'' sequence, x, y, z is the position of the center of mass of the body.
+
+### body.blend
+
+The file contains model of the body and python script to import data from the file.
+
 
 1. Install Blender
 1. Start Blender
