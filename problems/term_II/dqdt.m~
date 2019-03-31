@@ -1,0 +1,25 @@
+function dq = dqdt(t,q,p)
+
+% Slice functions:
+% - phi array by hinge index
+phi  = @(i) q(p.iq(i,1):p.iq(i,1)+p.iq(i,2)-1);
+% - dphi array by hinge index
+dphi = @(i) q(p.iq(i,1)+p.N:p.iq(i,1)+p.iq(i,2)+p.N-1);
+
+pT = zeros(3,p.N,p.n);
+
+i = 1;
+for ib=1:p.n
+    for k = 1:p.n
+        pblock = p.p(phi(ib),dphi(ib));
+        for ia = 1:p.na(ib)
+            pT(i,k) = pblock(:,ia)*p.T(ib,);
+            i = i + 1; 
+        end
+    end    
+end
+
+
+
+end
+
