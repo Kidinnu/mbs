@@ -22,10 +22,10 @@ p.C(:,3,3)  = [-1; 0;0];
 % Masses
 p.mass = [1;1;1];
 % Inertia tensors
-p.I    = cell(p.n,1);
-p.I{1} = diag([1,1,1]);
-p.I{2} = diag([1,1,1]);
-p.I{3} = diag([1,1,1]);
+p.I    = zeros(3,3,p.n);
+p.I(:,:,1) = diag([1,1,1]);
+p.I(:,:,2) = diag([1,1,1]);
+p.I(:,:,3) = diag([1,1,1]);
 % d_{ji} column vectors in j-CS
 p.d  = zeros(3,p.n,p.n);
 for i = 1:p.n
@@ -80,11 +80,11 @@ p.pw{2} = @(q,dq) cross(p.Wr{2}(q,dq),p.p{2}(q));
 p.pw{3} = @(q,dq) cross(p.Wr{3}(q,dq),p.p{3}(q)); 
 
 % Diagonal blocks of K tensor in i-CS
-p.Kii = cell(p.n,1);
+p.Kii = zeros(3,3,p.n);
 for i=1:p.n
-    p.Kii{i} = p.I{i};
+    p.Kii(:,:,i) = p.I(:,:,i);
     for k=1:p.n
-        p.Kii{i} = p.Kii{i} + p.mass(k)*(p.d(:,i,k)'*p.d(:,i,k)*eye(3) - p.d(:,i,k)*p.d(:,i,k)');
+        p.Kii(:,:,i) = p.Kii(:,:,i) + p.mass(k)*(p.d(:,i,k)'*p.d(:,i,k)*eye(3) - p.d(:,i,k)*p.d(:,i,k)');
     end
 end
 
