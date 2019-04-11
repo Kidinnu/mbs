@@ -6,13 +6,15 @@ phi  = @(i) q(p.iq(i,1):p.iq(i,1)+p.iq(i,2)-1);
 % get dphi array by hinge index
 dphi = @(i) q(p.iq(i,1)+p.N:p.iq(i,1)+p.iq(i,2)+p.N-1);
 
-% TODO
 % get Ai0 transform matrices
-% We should know the path from i to 0
 A0i = zeros(:,:,p.n);
 for i=1:p.n
-   % ...
-   % A0i(:,:,i) = ...
+    A0i(:,:,i) = eye(3);
+    for a=i:-1:1        
+        if p.T(a,i) ~= 1
+            A0i(:,:,i) = p.A{a}(phi(a))*A0i(:,:,i);
+        end
+    end
 end
 
 % TODO
@@ -22,7 +24,7 @@ Mass = total(p.m);
 for i=1:p.n
     for j=1:p.n
         if i==j
-            K(:,:,i,j) = p.Kii(:,:,i);
+            K(:,:,i,j) = A0i(:,:,i)*p.Kii(:,:,i)*A0i(:,:,i)';
         else            
             if p.T(i,j)~=0 
                % s_i < s_j                
