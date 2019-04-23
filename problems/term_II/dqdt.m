@@ -2,6 +2,10 @@ function dq = dqdt(t,q,p)
 
 tilde = @(w) [0 -w(3) w(2); w(3) 0 -w(1); -w(2) -w(1) 0];
 
+Fnet  = getForces(t,q,p);
+Mnet  = getTorques(t,q,p);
+
+
 % Slice functions:
 % get phi array by hinge index
 phi  = @(i) q(p.iq(i,1):p.iq(i,1)+p.iq(i,2)-1);
@@ -33,11 +37,13 @@ for i=1:p.n
             % Kii in 0 frame
             K(:,:,i,j) = A0i(:,:,i)*p.Kii(:,:,i)*A0i(:,:,i)';
         else            
-            if p.T(i,j)~=0 
-               % s_i < s_j                
+            if p.T(i,j)~=0
+               % s_i < s_j 
+               K(:,:,i,j) = mass*((A0i(:,:,j)*p.b(:,j))'*(A0i(:,:,i)*p.d(:,i,j))*eye(3)-A0i(:,:,j)*p.b(:,j)*(A0i(:,:,i)*p.d(:,i,j))');
             end
             if p.T(j,i)~=0 
                % s_j < s_i                
+               K(:,:,i,j) = mass*((A0i(:,:,j)*p.d(:,j,i))'*(A0i(:,:,i)*p.b(:,i))*eye(3)-A0i(:,:,j)*p.d(:,j,i)*(A0i(:,:,i)*p.d(:,i,j))');
             end            
         end
     end
@@ -49,7 +55,8 @@ end
 pT = zeros(3,p.N,p.n);
 i = 1;
 for ib=1:p.n
-    pblock = p.p{ib}(phi(ib));
+    % to 0 frame
+    pblock = A0i(:,:,ib)*p.p{ib}(phi(ib));
     for ia = 1:p.na(ib)
         for k = 1:p.n
             pT(:,i,k) = pblock(:,ia)*p.T(ib,k);                    
@@ -87,21 +94,59 @@ Mp = zeros(3,p.n);
 for i=1:p.n
     Mp(:,i) = - tilde(w(:,i))*p.Kii(:,:,i)*w(:,i);
     for j=1:p.n
-        if p.T(i,j)~=0 
-            % s_i < s_j                
+        if p.T(i,j)~=0 && i~=j 
+            % s_i < s_j           
+            Mp(:,i) = Mp(:,i) - mass*cross(A0i(:,:,i)*p.d(:,i,j),A0i(:,:,j)*cross(w(:,j),cross(w(:,j),p.b(:,j))));
         end
-        if p.T(j,i)~=0 
-            % s_j < s_i                
+        if p.T(i,j)~=0
+            % s_i < =  s_j           
+            Mp(:,i) = Mp(:,i) - cross(A0i(:,:,i)*p.d(:,i,j),Fnet(:,j));
         end
+        if p.T(j,i)~=0 && i~=j 
+            % s_j < s_i
+            Mp(:,i) = Mp(:,i) + A0i(:,:,i)*cross(p.b(:,i),A0i(:,:,j)*cross(w(:,j),cross(w(:,j),p.d(:,j,i))));
+        end        
     end
 end
 
 %
 % B matrix
 % 
+pTMpM = zeros(p.N,1);
+for i=1:p.N
+    for j=1:p.n 
+        pTMpM(i) = pTMpM(i) - pT(:,i,j)*(Mp(:,j)+A0i(:,:,i)*Mnet(:,i));
+    end
+end
+%
+% f
+%
+f   = zeros(3,p.n);
+% TODO
+for i=1:p.n
+   %f(:,i) = ... w* ... + p.pw{i}(phi(j),dphi(j)) 
+end
+% TTf
+TTf = zeros(3,p.n);
+for i=1:p.n
+    for j=1:p.n
+        TTf(:,i) = TTf(:,i) + p.T(j,i)*f(:,j); % -w0*1n
+    end
+end
+% pTKTTf
+pTKTTf = zeros(p.N,1);
+for i=1:p.N
+    for j=1:p.n
+        pTKTTf(i) = pTKTTf(i) - dot(pTK(:,i,j),TTf(:,j)); 
+    end
+end
+B = pTKTTf + pTMpM;
+%
+% Solve 
+%
+d2phi = A\B;
 
-for 
-
+dq = [q(p.n+1:2*p.n);d2phi];
 
 end
 
