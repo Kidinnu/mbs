@@ -30,7 +30,6 @@ for i=1:p.n
     for j=1:p.n
         w(:,i) = w(:,i) - p.T(j,i)*p.Wr{j}(phi(j),dphi(j)); % + w0 ;
         if i==j
-            % Kii in 0 frame
             K(:,:,i,j) = A0i(:,:,i)*p.Kii(:,:,i)*A0i(:,:,i)';
         else            
             if p.T(i,j)~=0 
