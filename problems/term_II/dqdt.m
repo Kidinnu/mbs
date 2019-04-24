@@ -39,11 +39,11 @@ for i=1:p.n
         else            
             if p.T(i,j)~=0
                % s_i < s_j 
-               K(:,:,i,j) = mass*((A0i(:,:,j)*p.b(:,j))'*(A0i(:,:,i)*p.d(:,i,j))*eye(3)-A0i(:,:,j)*p.b(:,j)*(A0i(:,:,i)*p.d(:,i,j))');
+               K(:,:,i,j) = Mass*((A0i(:,:,j)*p.b(:,j))'*(A0i(:,:,i)*p.d(:,i,j))*eye(3)-A0i(:,:,j)*p.b(:,j)*(A0i(:,:,i)*p.d(:,i,j))');
             end
             if p.T(j,i)~=0 
                % s_j < s_i                
-               K(:,:,i,j) = mass*((A0i(:,:,j)*p.d(:,j,i))'*(A0i(:,:,i)*p.b(:,i))*eye(3)-A0i(:,:,j)*p.d(:,j,i)*(A0i(:,:,i)*p.d(:,i,j))');
+               K(:,:,i,j) = Mass*((A0i(:,:,j)*p.d(:,j,i))'*(A0i(:,:,i)*p.b(:,i))*eye(3)-A0i(:,:,j)*p.d(:,j,i)*(A0i(:,:,i)*p.d(:,i,j))');
             end            
         end
     end
@@ -96,7 +96,7 @@ for i=1:p.n
     for j=1:p.n
         if p.T(i,j)~=0 && i~=j 
             % s_i < s_j           
-            Mp(:,i) = Mp(:,i) - mass*cross(A0i(:,:,i)*p.d(:,i,j),A0i(:,:,j)*cross(w(:,j),cross(w(:,j),p.b(:,j))));
+            Mp(:,i) = Mp(:,i) - Mass*cross(A0i(:,:,i)*p.d(:,i,j),A0i(:,:,j)*cross(w(:,j),cross(w(:,j),p.b(:,j))));
         end
         if p.T(i,j)~=0
             % s_i < =  s_j           
@@ -115,7 +115,7 @@ end
 pTMpM = zeros(p.N,1);
 for i=1:p.N
     for j=1:p.n 
-        pTMpM(i) = pTMpM(i) - pT(:,i,j)*(Mp(:,j)+A0i(:,:,i)*Mnet(:,i));
+        pTMpM(i) = pTMpM(i) - dot(pT(:,i,j),Mp(:,j)+A0i(:,:,j)*Mnet(:,j));
     end
 end
 %

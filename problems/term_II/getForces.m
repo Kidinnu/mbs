@@ -3,7 +3,7 @@ function F = getForces(t,q,p)
 F = zeros(3,p.n);
 
 for i=1:p.n
-   F(:,i) = [0;0;-p.m(i)*9.807]; 
+   F(:,i) = [0;0;-p.mass(i)*9.807]; 
 end
 
 end
