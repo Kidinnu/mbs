@@ -75,6 +75,7 @@ p.Wr{2} = @(q,dq)  p.p{2}(q)*[dq(1);dq(2)];
 p.Wr{3} = @(q,dq)  p.p{3}(q)*dq;
 
 % Partial derivatives of p vectors
+% !!!!!!!!! Error 
 p.pw{1} = @(q,dq) cross(p.Wr{1}(q,dq),p.p{1}(q));
 p.pw{2} = @(q,dq) cross(p.Wr{2}(q,dq),p.p{2}(q)); 
 p.pw{3} = @(q,dq) cross(p.Wr{3}(q,dq),p.p{3}(q)); 

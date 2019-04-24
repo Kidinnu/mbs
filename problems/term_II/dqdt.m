@@ -1,10 +1,13 @@
 function dq = dqdt(t,q,p)
+%
+%
+%
 
 tilde = @(w) [0 -w(3) w(2); w(3) 0 -w(1); -w(2) -w(1) 0];
-
+% Net force column vectros on each body in 0 frame
 Fnet  = getForces(t,q,p);
+% Net torques column vectros on each body in body frame
 Mnet  = getTorques(t,q,p);
-
 
 % Slice functions:
 % get phi array by hinge index
@@ -12,7 +15,7 @@ phi  = @(i) q(p.iq(i,1):p.iq(i,1)+p.iq(i,2)-1);
 % get dphi array by hinge index
 dphi = @(i) q(p.iq(i,1)+p.N:p.iq(i,1)+p.iq(i,2)+p.N-1);
 
-% get Ai0 transform matrices
+% get Ai0 transform matrices (i body to 0)
 A0i = zeros(3,3,p.n);
 for i=1:p.n
     A0i(:,:,i) = eye(3);
@@ -23,7 +26,6 @@ for i=1:p.n
     end
 end
 
-% TODO
 % K matrix
 K = zeros(3,3,p.n,p.n);
 Mass = sum(p.mass);
@@ -32,7 +34,7 @@ w      = zeros(3,p.n);
 w_in_0 = zeros(3,p.n);
 for i=1:p.n
     for j=1:p.n
-        w(:,i) = w(:,i) - p.T(j,i)*p.Wr{j}(phi(j),dphi(j)); % + w0 ;
+        w(:,i) = w(:,i) - A0i(:,:,j)*(p.T(j,i)*p.Wr{j}(phi(j),dphi(j))); % + w0 ;
         if i==j
             % Kii in 0 frame
             K(:,:,i,j) = A0i(:,:,i)*p.Kii(:,:,i)*A0i(:,:,i)';
@@ -118,13 +120,10 @@ for i=1:p.N
         pTMpM(i) = pTMpM(i) - dot(pT(:,i,j),Mp(:,j)+A0i(:,:,j)*Mnet(:,j));
     end
 end
-%
 % f
-%
 f   = zeros(3,p.n);
-% TODO
 for i=1:p.n
-   %f(:,i) = ... w* ... + p.pw{i}(phi(j),dphi(j)) 
+   f(:,i) = cross(w_in_0(:,i),A0i(:,:,i)*p.Wr{i}(phi(i),dphi(i))) + A0i(:,:,i)*p.pw{i}(phi(i),dphi(i));
 end
 % TTf
 TTf = zeros(3,p.n);
@@ -140,9 +139,10 @@ for i=1:p.N
         pTKTTf(i) = pTKTTf(i) - dot(pTK(:,i,j),TTf(:,j)); 
     end
 end
+% B
 B = pTKTTf + pTMpM;
 %
-% Solve 
+% Solve Ax=B for x
 %
 d2phi = A\B;
 
