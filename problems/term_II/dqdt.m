@@ -1,10 +1,16 @@
+% ODE function 
 function dq = dqdt(t,q,p)
-%
-%
+% t - time
+% q - state
+% p - parameters
+
 %
 % Net force column vectros on each body in 0 frame
+%
 Fnet  = getForces(t,q,p);
+%
 % Net torques column vectros on each body in body frame
+%
 Mnet  = getTorques(t,q,p);
 
 % Slice functions:
