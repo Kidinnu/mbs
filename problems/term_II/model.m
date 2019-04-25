@@ -64,14 +64,16 @@ preproc;
 % Initial conditions
 q0 = [1;1;1;1;1;1;0;0;0;0;0;0];
 % Start integration process
-% 
-%
-dqdt(0,[1;2;3;4;5;6;1;2;3;4;5;6],p)
-
-% =========================================================================
+[t, q] = ode113(@(t,q) dqdt(t,q,p), [0 1.1], q0);
+%% =========================================================================
 % Postprocessing
 % =========================================================================
-
+subplot(311);
+plot(t, q(:,1:3));legend('\phi_{11}','\phi_{12}','\phi_{13}');xlabel('t, c');
+subplot(312);
+plot(t, q(:,4:5));legend('\phi_{21}','\phi_{22}');xlabel('t, c');
+subplot(313);
+plot(t, q(:,6));legend('\phi_{31}');xlabel('t, c');
 % Checking conservation of energy
 %
 %

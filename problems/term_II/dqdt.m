@@ -150,7 +150,7 @@ B = pTKTTf + pTMpM;
 %
 d2phi = A\B;
 
-dq = [q(p.n+1:2*p.n);d2phi];
+dq = [q(p.N+1:2*p.N);d2phi];
 
 end
 
