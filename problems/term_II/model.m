@@ -50,10 +50,9 @@ p.Wr{1} = @(q,dq)  p.p{1}(q)*[dq(1);dq(2);dq(3)];
 p.Wr{2} = @(q,dq)  p.p{2}(q)*[dq(1);dq(2)];
 p.Wr{3} = @(q,dq)  p.p{3}(q)*dq;
 % Partial derivatives of p vectors
-% TODO
 p.pw{1} = @(q,dq) sum(tilde(p.Wr{1}(q,dq))*p.p{1}(q),2);
 p.pw{2} = @(q,dq) sum(tilde(p.Wr{2}(q,dq))*p.p{2}(q),2); 
-p.pw{3} = @(q,dq) sum(tilde(p.Wr{3}(q,dq))*p.p{3}(q),2); 
+p.pw{3} = @(q,dq) [0;0;0]; 
 % =========================================================================
 % Preprocessing
 % =========================================================================
@@ -64,7 +63,7 @@ preproc;
 % Initial conditions
 q0 = [1;1;1;1;1;1;0;0;0;0;0;0];
 % Start integration process
-[t, q] = ode113(@(t,q) dqdt(t,q,p), [0 1.1], q0);
+[t, q] = ode113(@(t,q) dqdt(t,q,p), [0 1.3], q0);
 %% =========================================================================
 % Postprocessing
 % =========================================================================
@@ -74,7 +73,7 @@ subplot(312);
 plot(t, q(:,4:5));legend('\phi_{21}','\phi_{22}');xlabel('t, c');
 subplot(313);
 plot(t, q(:,6));legend('\phi_{31}');xlabel('t, c');
-% Checking conservation of energy
+% Checking conservation of the energy
 %
 %
 %
