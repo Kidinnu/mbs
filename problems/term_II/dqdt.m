@@ -2,8 +2,6 @@ function dq = dqdt(t,q,p)
 %
 %
 %
-
-tilde = @(w) [0 -w(3) w(2); w(3) 0 -w(1); -w(2) -w(1) 0];
 % Net force column vectros on each body in 0 frame
 Fnet  = getForces(t,q,p);
 % Net torques column vectros on each body in body frame

@@ -44,13 +44,11 @@ p.p{1} = @(q) [p.A{1}(q)*[0;0;1] p.A{1}([0,q(2),q(3)])*[1;0;0] [0;0;1]];
 p.p{2} = @(q) [p.A{2}(q)*[0;0;1] [1;0;0]];
 % 2-3 joint: 3 x 1
 p.p{3} = @(q) [1;0;0];
-
 % Relative angular velocity
 p.Wr{1} = @(q,dq)  p.p{1}(q)*[dq(1);dq(2);dq(3)];
 p.Wr{2} = @(q,dq)  p.p{2}(q)*[dq(1);dq(2)];
 p.Wr{3} = @(q,dq)  p.p{3}(q)*dq;
 
-tilde = @(w) [0 -w(3) w(2); w(3) 0 -w(1); -w(2) -w(1) 0];
 % Partial derivatives of p vectors
 % !!!!!!!!! Error 
 p.pw{1} = @(q,dq) sum(tilde(p.Wr{1}(q,dq))*p.p{1}(q),2);
