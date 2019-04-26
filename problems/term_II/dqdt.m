@@ -24,7 +24,7 @@ A0i = zeros(3,3,p.n);
 for i=1:p.n
     A0i(:,:,i) = eye(3);
     for a=i:-1:1        
-        if p.T(a,i) ~= 1
+        if p.T(a,i) ~= 0
             A0i(:,:,i) = p.A{a}(phi(a))*A0i(:,:,i);
         end
     end
@@ -35,7 +35,7 @@ K = zeros(3,3,p.n,p.n);
 Mass = sum(p.mass);
 % Angular velocity 
 w      = zeros(3,p.n);
-w_in_0 = zeros(3,p.n);
+%w_in_0 = zeros(3,p.n);
 for i=1:p.n
     for j=1:p.n
         w(:,i) = w(:,i) - A0i(:,:,j)*(p.T(j,i)*p.Wr{j}(phi(j),dphi(j))); % + w0 ;
@@ -54,7 +54,7 @@ for i=1:p.n
         end
     end
     % Angular velocity in 0 frame
-    w_in_0(:,i) = A0i(:,:,i)*w(:,i);
+    % w_in_0(:,i) = A0i(:,:,i)*w(:,i);
 end
 
 % p*T matrix
@@ -102,7 +102,7 @@ for i=1:p.n
     for j=1:p.n
         if p.T(i,j)~=0 && i~=j 
             % s_i < s_j           
-            Mp(:,i) = Mp(:,i) - Mass*cross(A0i(:,:,i)*p.d(:,i,j),A0i(:,:,j)*cross(w(:,j),cross(w(:,j),p.b(:,j))));
+            Mp(:,i) = Mp(:,i) - Mass*cross(A0i(:,:,i)*p.d(:,i,j),cross(w(:,j),cross(w(:,j),A0i(:,:,j)*p.b(:,j))));
         end
         if p.T(i,j)~=0
             % s_i < =  s_j           
@@ -110,7 +110,7 @@ for i=1:p.n
         end
         if p.T(j,i)~=0 && i~=j 
             % s_j < s_i
-            Mp(:,i) = Mp(:,i) + A0i(:,:,i)*cross(p.b(:,i),A0i(:,:,j)*cross(w(:,j),cross(w(:,j),p.d(:,j,i))));
+            Mp(:,i) = Mp(:,i) + A0i(:,:,i)*cross(p.b(:,i),cross(w(:,j),cross(w(:,j),A0i(:,:,j)*p.d(:,j,i))));
         end        
     end
 end
@@ -127,7 +127,7 @@ end
 % f
 f   = zeros(3,p.n);
 for i=1:p.n
-   f(:,i) = cross(w_in_0(:,i),A0i(:,:,i)*p.Wr{i}(phi(i),dphi(i))) + A0i(:,:,i)*p.pw{i}(phi(i),dphi(i));
+   f(:,i) = cross(w(:,i),A0i(:,:,i)*p.Wr{i}(phi(i),dphi(i))) + A0i(:,:,i)*p.pw{i}(phi(i),dphi(i));
 end
 % TTf
 TTf = zeros(3,p.n);

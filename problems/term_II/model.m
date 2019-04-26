@@ -7,8 +7,8 @@ p.n  = 3;
 p.na = [3;2;1];
 % Structure matrix 
 p.S0 = [1 0 0];
-p.S  = [-1  1  1
-         0 -1  0
+p.S  = [-1  1  0
+         0 -1  1
          0  0 -1];
 % Joint vectors
 p.C  = zeros(3,p.n,p.n);
@@ -65,7 +65,7 @@ preproc;
 % Initial conditions
 q0 = [1;1;1;1;1;1;0;0;0;0;0;0];
 % Start integration process
-[t, q] = ode113(@(t,q) dqdt(t,q,p), [0 3.5], q0);
+[t, q] = ode113(@(t,q) dqdt(t,q,p), [0 5], q0);
 fprintf('OK\n');
 %% =========================================================================
 % Postprocessing
