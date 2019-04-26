@@ -32,26 +32,28 @@ p.pw = cell(p.n,1);
 Ax = @(x) [1 0 0; 0 cos(x) -sin(x); 0 sin(x) cos(x)];
 Ay = @(x) [cos(x) 0 sin(x); 0 1 0; - sin(x) 0 cos(x)];
 Az = @(x) [cos(x) -sin(x) 0; sin(x) cos(x) 0; 0 0 1];
-% 0-1 joint (spherical)
+% 0-1 (1 to 0) joint (spherical)
 p.A{1} = @(q) Az(q(1))*Ax(q(2))*Az(q(3));
-% 1-2 joint (universal)
+% 1-2 (2 to 1) joint (universal)
 p.A{2} = @(q) Az(q(1))*Ax(q(2));
-% 2-3 joint (cylindrical)
+% 2-3 (3 to 2) joint (cylindrical)
 p.A{3} = @(q) Ax(q(1));
 % p-vectors
-% 0-1 joint: 3 x 3
+% 0-1 spherical joint: 3 x 3 
 p.p{1} = @(q) [p.A{1}(q)'*[0;0;1] p.A{1}([0,q(2),q(3)])'*[1;0;0] [0;0;1]];
-% 1-2 joint: 3 x 2
+% 1-2 universal joint: 3 x 2
 p.p{2} = @(q) [p.A{2}(q)'*[0;0;1] [1;0;0]];
-% 2-3 joint: 3 x 1
+% 2-3 cylindrical joint: 3 x 1
 p.p{3} = @(q) [1;0;0];
 % Relative angular velocity
 p.Wr{1} = @(q,dq)  p.p{1}(q)*[dq(1);dq(2);dq(3)];
 p.Wr{2} = @(q,dq)  p.p{2}(q)*[dq(1);dq(2)];
 p.Wr{3} = @(q,dq)  p.p{3}(q)*dq;
 % Partial derivatives of p vectors
-p.pw{1} = @(q,dq) cos(q(2)); 
-p.pw{2} = @(q,dq) -cross(p.Wr{2}(q,dq),p.p{2}(q)*[1;0])*dq(1); 
+p.pw{1} = @(q,dq) [sin(q(3))*dq(2)*(cos(q(2))*dq(1)-dq(3))+cos(q(3))*sin(q(2))*dq(1)*dq(3);
+                   cos(q(3))*dq(2)*(cos(q(2))*dq(1)-dq(3))-sin(q(3))*sin(q(2))*dq(1)*dq(3);
+                   -sin(q(2))*dq(2)*dq(1)];
+p.pw{2} = @(q,dq) [0;cos(q(2))*dq(2);-sin(q(2))*dq(2)]*dq(1); 
 p.pw{3} = @(q,dq) [0;0;0]; 
 % =========================================================================
 % Preprocessing
@@ -63,7 +65,7 @@ preproc;
 % Initial conditions
 q0 = [1;1;1;1;1;1;0;0;0;0;0;0];
 % Start integration process
-[t, q] = ode113(@(t,q) dqdt(t,q,p), [0 5], q0);
+[t, q] = ode113(@(t,q) dqdt(t,q,p), [0 3.5], q0);
 fprintf('OK\n');
 %% =========================================================================
 % Postprocessing
