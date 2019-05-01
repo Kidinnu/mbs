@@ -4,13 +4,9 @@ function dq = dqdt(t,q,p)
 % q - state
 % p - parameters
 
-%
 % Net force column vectros on each body in 0 frame
-%
 Fnet  = getForces(t,q,p);
-%
 % Net torques column vectros on each body in body frame
-%
 Mnet  = getTorques(t,q,p);
 
 % Slice functions:
@@ -98,7 +94,7 @@ end
 %
 Mp = zeros(3,p.n);
 for i=1:p.n
-    Mp(:,i) = - tilde(w(:,i))*p.Kii(:,:,i)*w(:,i);
+    Mp(:,i) = - tilde(w(:,i))*K(:,:,i,i)*w(:,i);
     for j=1:p.n
         if p.T(i,j)~=0 && i~=j 
             % s_i < s_j           
@@ -110,7 +106,7 @@ for i=1:p.n
         end
         if p.T(j,i)~=0 && i~=j 
             % s_j < s_i
-            Mp(:,i) = Mp(:,i) + A0i(:,:,i)*cross(p.b(:,i),cross(w(:,j),cross(w(:,j),A0i(:,:,j)*p.d(:,j,i))));
+            Mp(:,i) = Mp(:,i) + cross(A0i(:,:,i)*p.b(:,i),cross(w(:,j),cross(w(:,j),A0i(:,:,j)*p.d(:,j,i))));
         end        
     end
 end
