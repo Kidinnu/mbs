@@ -1,7 +1,3 @@
-# Versions
-
-v0.1 Unable to meet integration tolerances ... 
-
 # Files 
 
 ## model.m
@@ -12,7 +8,7 @@ model.m script contains model-specific code
 
 preproc.m script prepeares data for the simulation based on the model data
 
-## dqdt.m 
+## ode_dqdt.m 
 
 ODE "right side" function
 
@@ -24,7 +20,9 @@ getForces function retruns 3xn matrix (column vectors) of net forces acting on e
 
 getForces function retruns 3xn matrix (column vectors) of net torques acting on each body (in body frame)
 
+## Example 
 
+![Model](model.png)
 
 
 
