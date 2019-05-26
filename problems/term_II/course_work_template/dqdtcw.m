@@ -1,5 +1,5 @@
 % ODE function 
-function dq = dqdt(t,q,p)
+function dq = dqdtcw(t,q,p)
 % t - time
 % q - state
 % p - parameters
@@ -11,11 +11,11 @@ Mnet  = getTorques(t,q,p);
 
 % Slice functions:
 % get phi array by hinge index
-phi  = @(i) q(p.iq(i,1):p.iq(i,1)+p.iq(i,2)-1);
+phi  = @(i) q(p.iq(i,1) : p.iq(i,1)+p.iq(i,2)-1);
 % get dphi array by hinge index
-dphi = @(i) q(p.iq(i,1)+p.N:p.iq(i,1)+p.iq(i,2)+p.N-1);
+dphi = @(i) q(p.iq(i,1)+p.N : p.iq(i,1)+p.iq(i,2)+p.N-1);
 
-% get Ai0 transform matrices (i body to 0)
+% get A0i transform matrices (i body to 0)
 A0i = zeros(3,3,p.n);
 for i=1:p.n
     A0i(:,:,i) = eye(3);
@@ -29,8 +29,10 @@ end
 % K matrix
 K = zeros(3,3,p.n,p.n);
 Mass = sum(p.mass);
+
 % Angular velocity 
 w      = zeros(3,p.n);
+
 %w_in_0 = zeros(3,p.n);
 for i=1:p.n
     for j=1:p.n
@@ -45,7 +47,7 @@ for i=1:p.n
             end
             if p.T(j,i)~=0 
                % s_j < s_i                
-               K(:,:,i,j) = Mass*((A0i(:,:,j)*p.d(:,j,i))'*(A0i(:,:,i)*p.b(:,i))*eye(3)-A0i(:,:,j)*p.d(:,j,i)*(A0i(:,:,i)*p.d(:,i,j))');
+               K(:,:,i,j) = Mass*((A0i(:,:,j)*p.d(:,j,i))'*(A0i(:,:,i)*p.b(:,i))*eye(3)-A0i(:,:,j)*p.d(:,j,i)*(A0i(:,:,i)*p.b(:,i))');
             end            
         end
     end
@@ -106,7 +108,7 @@ for i=1:p.n
         end
         if p.T(j,i)~=0 && i~=j 
             % s_j < s_i
-            Mp(:,i) = Mp(:,i) + cross(A0i(:,:,i)*p.b(:,i),cross(w(:,j),cross(w(:,j),A0i(:,:,j)*p.d(:,j,i))));
+            Mp(:,i) = Mp(:,i) - Mass*cross(A0i(:,:,i)*p.b(:,i),cross(w(:,j),cross(w(:,j),A0i(:,:,j)*p.d(:,j,i))));
         end        
     end
 end

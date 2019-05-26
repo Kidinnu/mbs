@@ -1,4 +1,4 @@
-%% ========================================================================
+% =========================================================================
 % Model description
 % =========================================================================
 % Number of bodies
@@ -56,21 +56,21 @@ p.A{1} = @(q) Az(q(1))*Ax(q(2))*Az(q(3));
 p.A{2} = @(q) Az(q(1))*Ax(q(2))*Az(q(3));
 
 % 2-3 (3 to 2) joint (cylindrical)
-p.A{3} = @(q) Az(q);
+p.A{3} = @(q) Az(q(1));
 
 % 3-4 (4 to 3) joint (cylindrical)
-p.A{4} = @(q) Ay(q);
+p.A{4} = @(q) Ay(q(1));
 
 % 3-5 (5 to 3) joint (cylindrical)
-p.A{5} = @(q) Ay(q);
+p.A{5} = @(q) Ay(q(1));
 
 % p-vectors
 % 0-1 spherical joint: 3 x 3 
-%p.p{1} = @(q) [[sin(q(2))*sin(q(3));sin(q(2))*cos(q(3));cos(q(2))] [cos(q(3));-sin(q(3));0] [0;0;1]];
 p.p{1} = @(q) [p.A{1}(q)'*[0;0;1] p.A{1}([0,q(2),q(3)])'*[1;0;0] [0;0;1]];
+
 % 1-2 spherical joint: 3 x 3
-%p.p{2} = @(q) [[sin(q(2))*sin(q(3));sin(q(2))*cos(q(3));cos(q(2))] [cos(q(3));-sin(q(3));0] [0;0;1]];
-p.p{2} = @(q) [p.A{2}(q)'*[0;0;1] p.A{2}([0,q(2),q(3)])'*[1;0;0] [0;0;1]];
+p.p{2} = @(q) [p.A{1}(q)'*[0;0;1] p.A{1}([0,q(2),q(3)])'*[1;0;0] [0;0;1]];
+
 % 2-3 cylindrical joint: 3 x 1
 p.p{3} = @(q) [0;0;1];
 
@@ -94,7 +94,6 @@ p.pw{1} = @(q,dq) [sin(q(3))*dq(2)*(cos(q(2))*dq(1)-dq(3))+cos(q(3))*sin(q(2))*d
 p.pw{2} = @(q,dq) [sin(q(3))*dq(2)*(cos(q(2))*dq(1)-dq(3))+cos(q(3))*sin(q(2))*dq(1)*dq(3);
                    cos(q(3))*dq(2)*(cos(q(2))*dq(1)-dq(3))-sin(q(3))*sin(q(2))*dq(1)*dq(3);
                    -sin(q(2))*dq(2)*dq(1)]; 
-
 p.pw{3} = @(q,dq) [0;0;0]; 
 p.pw{4} = @(q,dq) [0;0;0]; 
 p.pw{5} = @(q,dq) [0;0;0]; 
@@ -110,9 +109,10 @@ preproc;
 % Simulation
 % =========================================================================
 % Initial conditions
+clc;
 q0 = [1;1;1;1;1;1;1;1;1;0;0;0;0;0;0;0;0;0];
 % Start integration process
-[t, q] = ode113(@(t,q) dqdtcw(t,q,p), [0 5], q0);
+[t, q] = ode113(@(t,q) dqdtcw(t,q,p), [0 1], q0);
 fprintf('OK\n');
 
 
@@ -121,27 +121,27 @@ fprintf('OK\n');
 % =========================================================================
 figure;
 subplot(511);
-plot(t, q(:,1:3));legend('\phi_{11}','\phi_{12}','\phi_{13}');xlabel('t, s');
+plot(t, q(:,1:3));legend('\phi_{11}','\phi_{12}','\phi_{13}');xlabel('t, c');
 subplot(512);
-plot(t, q(:,4:6));legend('\phi_{21}','\phi_{22}','\phi_{23}');xlabel('t, s');
+plot(t, q(:,4:6));legend('\phi_{21}','\phi_{22}','\phi_{23}');xlabel('t, c');
 subplot(513);
-plot(t, q(:,7));legend('\phi_{33}');xlabel('t, s');
+plot(t, q(:,7));legend('\phi_{33}');xlabel('t, c');
 subplot(514);
-plot(t, q(:,8));legend('\phi_{42}');xlabel('t, s');
+plot(t, q(:,8));legend('\phi_{42}');xlabel('t, c');
 subplot(515);
-plot(t, q(:,9));legend('\phi_{52}');xlabel('t, s');
+plot(t, q(:,9));legend('\phi_{52}');xlabel('t, c');
 
 
 %% ========================================================================
 % Validation � Checking conservation of the energy
 % =========================================================================
-[E, T, V] = Energy(q,p);
+E = Energy(q,p);
 figure;
-plot(t, E, t, T, t, V); legend('E', 'T', 'V'); xlabel('t, s'); ylabel('Energy, J');
+plot(t, E)
 
 
 %% ========================================================================
 % Export data for animation 
 % =========================================================================
 csvwrite('results.csv',q)
-csvwrite('vec_d.csv',p.d)
+
