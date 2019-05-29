@@ -19,6 +19,8 @@ for k=1:size(q,1)
                 A0i(:,:,i) = p.A{a}(phi(a))*A0i(:,:,i);
             end
         end
+    end
+    for i=1:p.n
         for j=1:p.n
             w(:,i,k) = w(:,i,k) - A0i(:,:,j)*(p.T(j,i)*p.Wr{j}(phi(j),dphi(j)));
             r(:,i,k) = r(:,i,k) - A0i(:,:,j)*p.d(:,j,i);

@@ -106,7 +106,7 @@ preproc;
 % Simulation
 % =========================================================================
 % Initial conditions
-q0 = [pi/2;0.5;0;pi/2;0.2;0;0;0;0;0;0;0;0;0;0;0;0;0];
+q0 = [pi/2;0.5;0.1;pi/2;0.2;0.1;0;0;0;0;0;0;0;0;0;0;0;0];
 % Start integration process
 [t, q] = ode113(@(t,q) ode_dqdt(t,q,p), [0 5], q0, odeset('RelTol',1e-7));
 fprintf('OK\n');
