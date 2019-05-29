@@ -1,5 +1,5 @@
 function [T, U] = Energy(q, p)
-% Get Kinetic & potential energy 
+% Kinetic energy 
 %
 %
 r  = zeros(3, p.n, size(q,1));

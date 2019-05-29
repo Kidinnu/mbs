@@ -1,14 +1,14 @@
 %% ========================================================================
-% Model description
+% Описание модели
 % =========================================================================
 clc;
-% Number of bodies
+% Количество тел
 p.n  = 5;
 
-% Numbers DOF for each joint
+% Колчиество степеней свободы в каждом шарнире (от 1 до 3)
 p.na = [3;3;1;1;1];
 
-% Structure matrix 
+% Матрица инцидентности 
 p.S0 = [1 0 0 0 0];
 p.S  = [-1  1  0  0  0    
          0 -1  1  0  0
@@ -16,7 +16,7 @@ p.S  = [-1  1  0  0  0
          0  0  0 -1  0
          0  0  0  0 -1];
 
-% Joint vectors
+% Шарнирные вектора
 p.C  = zeros(3,p.n,p.n);
 p.C(:,1,1)  = [0;0;+1];
 p.C(:,1,2)  = [0;0;-1];
@@ -28,11 +28,10 @@ p.C(:,3,5)  = [-0.5;0;0];
 p.C(:,4,4)  = [0;0;+0.5];
 p.C(:,5,5)  = [0;0;+0.5];
 
-% Masses (Critical parameter - choices impart big changes in solution)
+% Masses
 p.mass = [3;3;2;1.5;1.5];       
 
-% Inertia tensors (Critical parameter - choices impart big changes in
-% solution)
+% Inertia tensors 
 p.I    = zeros(3,3,p.n);
 p.I(:,:,1) = p.mass(1)*diag([4/3,4/3,0.6*4/2]);     % Iz = 60% of (Ix,Iy)
 p.I(:,:,2) = p.mass(2)*diag([4/3,4/3,0.6*4/3]);     % Iz = 60% of (Ix,Iy)
@@ -42,7 +41,7 @@ p.I(:,:,5) = p.mass(5)*diag([1/3,1/3,0.6*1/3]);     % Iz = 60% of (Ix,Iy)
 
 % Kinematics
 p.A  = cell(p.n,1);
-p.p = cell(p.n,1);
+p.p  = cell(p.n,1);
 p.pw = cell(p.n,1);
 
 % Basic rotations
@@ -107,7 +106,7 @@ preproc;
 % Simulation
 % =========================================================================
 % Initial conditions
-q0 = [1;1;1;1;1;1;1;1;1;0;0;0;0;0;0;0;0;0]*0.5;
+q0 = [pi/2;0.5;0;pi/2;0.2;0;0;0;0;0;0;0;0;0;0;0;0;0];
 % Start integration process
 [t, q] = ode113(@(t,q) ode_dqdt(t,q,p), [0 5], q0, odeset('RelTol',1e-7));
 fprintf('OK\n');
@@ -137,9 +136,10 @@ set(gca,'FontSize',12); grid on;
 %% ========================================================================
 % Validation : Checking conservation of the energy
 % =========================================================================
-[E, T, V] = Energy(q,p);
 figure;
-plot(t, E,'-',t, T,'--', t, V,':'); 
+[T, V] = Energy(q,p);
+figure;
+plot(t, T+V,'-',t, T,'--', t, V,':'); 
 legend('Total energy', 'Kinetic energy', 'Potential energy'); 
 xlabel('t, s'); ylabel('Energy, J');
 
