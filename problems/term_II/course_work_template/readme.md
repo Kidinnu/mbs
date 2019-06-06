@@ -1,8 +1,10 @@
+Пример (шаблон) программы для курсовой работы.  
+
 # Files 
 
 ## model.m
 
-model.m script contains model-specific code
+Файл-скрипт model.m -- это основной модуль программы, который содержит описание модели, код для запуска процесса интегрирвоания уравнений движения (автор [Ishan Patel](https://github.com/patelishan2235))
 
 ## preproc.m
 
@@ -24,6 +26,7 @@ getForces function retruns 3xn matrix (column vectors) of net torques acting on 
 
 ![Model](model.png)
 
+Image by [Ishan Patel](https://github.com/patelishan2235)
 
 
 
