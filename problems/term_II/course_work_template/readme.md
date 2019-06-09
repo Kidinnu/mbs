@@ -1,29 +1,34 @@
+Пример (шаблон) программы для курсовой работы.  
+
 # Files 
 
 ## model.m
 
-model.m script contains model-specific code
+Файл-скрипт model.m -- это основной модуль программы, который содержит описание модели, код для запуска процесса интегрирования уравнений движения (автор [Ishan Patel](https://github.com/patelishan2235))
 
 ## preproc.m
 
-preproc.m script prepeares data for the simulation based on the model data
+Файл-скрипт preproc.m выполняет подготовку данных: вычисляет векторы $d_{ij}$, $b_{i0}$ перед началом процесса интегрироания. 
 
 ## ode_dqdt.m 
 
-ODE "right side" function
+Функция правых частей дифференциальных уравнений (не зависит от параметро модели)
 
 ## getForces.m 
 
-getForces function retruns 3xn matrix (column vectors) of net forces acting on each body (in 0 frame)
+Функция getForces возвращает 3xn матрицу внешних сил, действующих на каждое тело в системе координат $Ox_0y_0z_0$.
 
 ## getTorques.m 
 
-getForces function retruns 3xn matrix (column vectors) of net torques acting on each body (in body frame)
+Функция getTorques возвращает 3xn матрицу внешних моментов, действующих на каждое телов системе координат, связанной с телом.
 
-## Example 
+## Пример 
+
+Файл model.m содержит описание модели механической системы, представленной на рисунке.  
 
 ![Model](model.png)
 
+Image by [Ishan Patel](https://github.com/patelishan2235)
 
 
 
