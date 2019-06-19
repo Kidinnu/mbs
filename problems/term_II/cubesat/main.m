@@ -3,35 +3,34 @@
 %   
 % Vadim Yudintsev yudintsev@classmech.ru
 % 
-
+clc;
 params = struct();
 
-% Cubesat mass
+% Cubesat mass, kg
 params.mass  = 1.8;
-% Moment of inertia
+% Moment of inertia, kgm2
 params.J     = params.mass*(0.340^2 + 0.1^2)/12;
-% Center of mass position
+% Center of mass position, m
 params.yc    = 0.05    -0.02;
 params.zc    = 0.340/2 -0.05;
-% Cubesat length
+% Cubesat length, m
 params.L     = 0.340;
-% Cubesat width
+% Cubesat width, m
 params.w     = 0.100;
-% The gap between the guide rails and the cubesat
+% The gap between the guide rails and the cubesat, m
 params.delta = 0.002;
-% Pusher spring stroke
+% Pusher spring stroke, m
 params.hp    = 0.339;
-% Initial spring force
+% Initial spring force, N
 params.Fp0   = 10;
 % Spring Stiffness
 params.cp    = (params.Fp0-5)/params.hp;
-% Final time
+% Final time, s
 params.tk    = 0.8;
 
 % Place for reaction forces
 aux_results  = [];
 % Initial conditions 
-clc;
 % Angle between the guide rails and the cubesat
 fh = @(phi) params.w*cos(phi) + (params.L+params.w*sin(phi))*tan(phi) - params.w - params.delta;
 phi0 = fzero(fh,0.001);
