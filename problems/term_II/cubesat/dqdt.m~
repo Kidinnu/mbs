@@ -122,7 +122,7 @@ yB = y - (params.yc-params.w)*cos(phi) + params.zc*sin(phi);
 yA = -params.w*cos(phi)-BAp*sin(phi);
 zA = zB + params.w*sin(phi)+BAp*cos(phi);
 
-% result of the ode function dq = dq/dt
+% resutl o
 dq = [vy;vz;dphi;ay;az;d2phi];
 
 end
