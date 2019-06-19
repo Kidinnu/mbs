@@ -18,7 +18,7 @@ params.L     = 0.340;
 % Cubesat width
 params.w     = 0.100;
 % The gap between the guide rails and the cubesat
-params.delta = 0.002;
+params.delta = 0.001;
 % Pusher spring stroke
 params.hp    = 0.339;
 % Initial spring force
@@ -58,7 +58,7 @@ params.isRa    = 1;
 % Set the accuracy, event function and output function
 options = odeset('RelTol',1e-9, 'MaxStep', 0.02, 'Events', @(t,q) event(t,q,params), 'OutputFcn', @(t,q,flag) myOutputFcn(t,q,flag,params), 'Refine', 1);
 % Run
-[t1, q1, ~, ~, ie] = ode45(@(t,q) dqdt(t,q,params), [0,params.tk], q0, options);
+[t1, q1, ~, ~, ie] = ode45(@(t,q) dqdt(t,q,params), [0, params.tk], q0, options);
 for i=1:size(t1)
     [dq, Ra, Rb, zB, yA, zA, yB, Fp] = dqdt(t1(i), q1(i,:)', params);
     aux_results = [aux_results; Ra, Rb, zB, yA, zA, yB, Fp];
@@ -72,7 +72,7 @@ else
     error('Rb = 0 before Ra = 0 \n');
 end
 
-[t2, q2, ~, ~, ie] = ode45(@(t,q) dqdt(t,q,params), [t1(end),params.tk], q1(end,:)', options);
+[t2, q2, ~, ~, ie] = ode45(@(t,q) dqdt(t,q,params), [t1(end), params.tk], q1(end,:)', options);
 for i=1:size(t2)
     [dq, Ra, Rb, zB, yA, zA, yB, Fp] = dqdt(t2(i), q2(i,:)', params);
     aux_results = [aux_results; Ra, Rb, zB, yA, zA, yB, Fp];
@@ -82,7 +82,7 @@ if ie == 2
     options = odeset('RelTol',1e-9, 'MaxStep', 0.02, 'Events', @(t,q) event(t,q,params), 'OutputFcn', @(t,q,flag) myOutputFcn(t,q,flag,params), 'Refine', 1);
     fprintf('-----\nt = %5.3f s. Contact point B is lost\n-----\n',t2(end));
 end
-[t3, q3, ~, ~, ie] = ode45(@(t,q) dqdt(t,q,params), [t2(end),params.tk], q2(end,:)', options);
+[t3, q3, ~, ~, ie] = ode45(@(t,q) dqdt(t,q,params), [t2(end), params.tk], q2(end,:)', options);
 for i=1:size(t3)
     [dq, Ra, Rb, zB, yA, zA, yB, Fp] = dqdt(t3(i), q3(i,:)', params);
     aux_results = [aux_results; Ra, Rb, zB, yA, zA, yB, Fp];
@@ -129,24 +129,24 @@ cubesat_points = [-params.zc, -params.yc;
                    params.L-params.zc, -params.yc;
                   -params.zc, -params.yc
                    ];
+
 figure;
+
 for i=1:size(t)
     cla;
     
-    line([params.L params.L 0 0 params.L params.L],...
-        [0.01 0 0 -params.w-params.delta -params.w-params.delta -params.w-params.delta-0.01],...
-        'LineWidth',2,'Color','k');
+    line([params.L params.L 0 0 params.L params.L],[0.01 0 0 -params.w-params.delta -params.w-params.delta -params.w-params.delta-0.01]);
     tpoints = (A(q(i,3))*cubesat_points')' + repmat([q(i,2),q(i,1)],5,1);
-    hold on;
-    plot(polyshape(tpoints(:,1),tpoints(:,2)));
-    hold off;
-    xlim([ 0.0, params.L*3  ]); 
-    ylim([-params.w-0.1, +0.1]); 
-    set(gca,'DataAspectRatio',[1 1 1]);
+    line(tpoints(:,1),tpoints(:,2));
+    
+    xlim([0,params.L*2]); 
+    set(gca,'DataAspectRati
     
     getframe;
-    pause(0.1);
+    
 end    
+
+
 
 
 
