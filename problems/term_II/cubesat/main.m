@@ -7,7 +7,7 @@ clc;
 params = struct();
 
 % Cubesat mass, kg
-params.mass  = 1.8;
+params.mass  = 2.0;
 % Moment of inertia, kgm2
 params.J     = params.mass*(0.340^2 + 0.1^2)/12;
 % Center of mass position, m
@@ -22,9 +22,9 @@ params.delta = 0.002;
 % Pusher spring stroke, m
 params.hp    = 0.339;
 % Initial spring force, N
-params.Fp0   = 10;
+params.Fp0   = 7;
 % Spring Stiffness
-params.cp    = (params.Fp0-5)/params.hp;
+params.cp    = (params.Fp0-2)/params.hp;
 % Final time, s
 params.tk    = 0.8;
 
