@@ -1,5 +1,5 @@
 % ODE function 
-function dq = dqdtcw(t,q,p)
+function dq = ode_dqdt(t,q,p)
 % t - time
 % q - state
 % p - parameters
