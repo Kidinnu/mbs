@@ -22,7 +22,7 @@ for k=1:size(q,1)
     end
     for i=1:p.n
         for j=1:p.n
-            w(:,i,k) = w(:,i,k) - A0i(:,:,j)*(p.T(j,i)*p.Wr{j}(phi(j),dphi(j)));
+            w(:,i,k) = w(:,i,k) - A0i(:,:,j)*(p.T(j,i)*p.Wr{j}(phi(j)',dphi(j)'));
             r(:,i,k) = r(:,i,k) - A0i(:,:,j)*p.d(:,j,i);
             V(:,i,k) = V(:,i,k) - cross(w(:,j,k),A0i(:,:,j)*p.d(:,j,i));
         end
